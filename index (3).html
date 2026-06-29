@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>驛瑪騎士團 — 花蓮行動廣告 × 影像創作</title>
+<meta name="description" content="花蓮在地行動廣告託播、影片製作、AI創作。機車搭載數位螢幕，讓你的品牌在花蓮街頭流動曝光。">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --red:#E24B4A;--red-dark:#A32D2D;
+  --bg:#0a0a0a;--bg2:#111111;--bg3:#1a1a1a;
+  --border:rgba(255,255,255,0.08);
+  --text:#fff;--muted:rgba(255,255,255,0.5);--dim:rgba(255,255,255,0.25);
+}
+html{scroll-behavior:smooth;}
+body{font-family:-apple-system,'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 2rem;display:flex;justify-content:space-between;align-items:center;border-bottom:0.5px solid transparent;transition:all 0.3s;}
+nav.scrolled{background:rgba(10,10,10,0.95);border-bottom-color:var(--border);backdrop-filter:blur(10px);}
+.nav-logo{font-size:16px;font-weight:500;letter-spacing:0.05em;text-decoration:none;color:var(--text);}
+.nav-logo span{color:var(--red);}
+.nav-links{display:flex;gap:2rem;list-style:none;}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;letter-spacing:0.1em;transition:color 0.2s;}
+.nav-links a:hover{color:var(--text);}
+.nav-cta{padding:0.5rem 1.25rem;border:0.5px solid var(--red);color:var(--red);text-decoration:none;font-size:13px;letter-spacing:0.08em;border-radius:2px;transition:all 0.2s;}
+.nav-cta:hover{background:var(--red);color:#fff;}
+
+/* HERO */
+.hero{position:relative;height:100vh;min-height:600px;display:flex;align-items:flex-end;overflow:hidden;}
+.hero-video{position:absolute;inset:0;width:100%;height:100%;}
+.hero-video iframe{width:100%;height:100%;border:none;pointer-events:none;}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.5) 50%, rgba(10,10,10,0.3) 100%);}
+.hero-content{position:relative;z-index:1;padding:4rem 2rem;max-width:900px;}
+.hero-eyebrow{font-size:10px;letter-spacing:0.3em;color:var(--red);text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:0.75rem;}
+.hero-eyebrow::before{content:'';width:24px;height:0.5px;background:var(--red);}
+.hero-title{font-size:clamp(36px,6vw,72px);font-weight:400;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;}
+.hero-title em{font-style:normal;color:var(--red);}
+.hero-sub{font-size:15px;color:var(--muted);line-height:1.7;max-width:480px;margin-bottom:2.5rem;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-primary{padding:0.875rem 2rem;background:var(--red);color:#fff;text-decoration:none;font-size:14px;letter-spacing:0.08em;border-radius:2px;transition:background 0.2s;}
+.btn-primary:hover{background:var(--red-dark);}
+.btn-secondary{padding:0.875rem 2rem;border:0.5px solid rgba(255,255,255,0.3);color:var(--text);text-decoration:none;font-size:14px;letter-spacing:0.08em;border-radius:2px;transition:all 0.2s;}
+.btn-secondary:hover{border-color:var(--text);}
+.hero-stats{position:absolute;bottom:2rem;right:2rem;display:flex;gap:2.5rem;z-index:1;}
+.stat{text-align:right;}
+.stat-val{font-size:11px;letter-spacing:0.15em;color:var(--text);}
+.stat-label{font-size:10px;letter-spacing:0.1em;color:var(--dim);text-transform:uppercase;margin-top:2px;}
+
+/* SECTIONS */
+section{padding:6rem 2rem;border-top:0.5px solid var(--border);}
+.section-inner{max-width:1120px;margin:0 auto;}
+.eyebrow{font-size:10px;letter-spacing:0.25em;color:var(--red);text-transform:uppercase;margin-bottom:1rem;}
+.section-title{font-size:clamp(28px,4vw,48px);font-weight:400;line-height:1.1;margin-bottom:3rem;}
+
+/* SERVICES */
+.services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0.5px;background:var(--border);}
+.service-card{background:var(--bg);padding:2.5rem 2rem;transition:background 0.2s;}
+.service-card:hover{background:var(--bg3);}
+.service-num{font-size:10px;letter-spacing:0.2em;color:var(--dim);margin-bottom:2rem;}
+.service-icon{font-size:2rem;margin-bottom:1.25rem;}
+.service-name-en{font-size:10px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;margin-bottom:0.5rem;}
+.service-name{font-size:20px;font-weight:400;margin-bottom:1rem;}
+.service-desc{font-size:13px;color:var(--muted);line-height:1.7;}
+
+/* WORKS */
+.works-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.5px;background:var(--border);}
+.work-card{background:var(--bg);aspect-ratio:16/9;position:relative;overflow:hidden;cursor:pointer;display:block;text-decoration:none;}
+.work-card:hover .work-img{transform:scale(1.05);}
+.work-img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s;}
+.work-img-placeholder{width:100%;height:100%;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--border);transition:transform 0.4s;}
+.work-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.9) 0%,transparent 60%);padding:1.25rem;}
+.work-overlay{display:flex;flex-direction:column;justify-content:flex-end;}
+.work-cat{font-size:9px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:0.4rem;}
+.work-title{font-size:14px;color:var(--text);font-weight:400;}
+
+/* PRICING */
+.pricing-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5px;background:var(--border);margin-bottom:2rem;}
+.price-card{background:var(--bg);padding:2rem 1.5rem;transition:background 0.2s;}
+.price-card:hover{background:var(--bg3);}
+.price-card.featured{background:rgba(226,75,74,0.08);border:0.5px solid rgba(226,75,74,0.3);}
+.price-tag{font-size:10px;letter-spacing:0.2em;color:var(--red);text-transform:uppercase;margin-bottom:1.5rem;}
+.price-name{font-size:18px;font-weight:400;margin-bottom:0.75rem;}
+.price-val{font-size:36px;font-weight:300;color:var(--red);line-height:1;margin-bottom:0.4rem;}
+.price-period{font-size:12px;color:var(--dim);margin-bottom:1.5rem;}
+.price-features{list-style:none;}
+.price-features li{font-size:13px;color:var(--muted);padding:0.5rem 0;border-bottom:0.5px solid var(--border);display:flex;gap:0.5rem;align-items:flex-start;line-height:1.5;}
+.price-features li:last-child{border-bottom:none;}
+.price-features li::before{content:'—';color:var(--red);flex-shrink:0;}
+.pricing-note{font-size:13px;color:var(--dim);line-height:1.7;}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.about-text{font-size:15px;color:var(--muted);line-height:1.9;}
+.about-text p+p{margin-top:1.25rem;}
+.about-stats{display:flex;flex-direction:column;gap:0;}
+.about-stat{padding:1.5rem 0;border-bottom:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:baseline;}
+.about-stat:first-child{border-top:0.5px solid var(--border);}
+.stat-number{font-size:40px;font-weight:300;color:var(--red);line-height:1;}
+.stat-desc{font-size:12px;color:var(--dim);letter-spacing:0.08em;text-align:right;max-width:150px;line-height:1.5;}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-links{display:flex;flex-direction:column;gap:0;}
+.contact-link{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;border-bottom:0.5px solid var(--border);text-decoration:none;color:var(--text);transition:color 0.2s;}
+.contact-link:first-child{border-top:0.5px solid var(--border);}
+.contact-link:hover{color:var(--red);}
+.contact-link-name{font-size:16px;letter-spacing:0.05em;}
+.contact-link-arrow{font-size:18px;color:var(--dim);}
+.contact-link:hover .contact-link-arrow{color:var(--red);}
+.contact-info{font-size:14px;color:var(--muted);line-height:1.9;}
+.contact-info p+p{margin-top:1rem;}
+
+/* FOOTER */
+footer{padding:2rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.footer-logo{font-size:14px;font-weight:500;letter-spacing:0.05em;text-decoration:none;color:var(--text);}
+.footer-logo span{color:var(--red);}
+.footer-copy{font-size:11px;color:var(--dim);letter-spacing:0.08em;}
+
+/* MOBILE */
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem;}
+  .nav-links{display:none;}
+  .hero-content{padding:2rem 1.25rem;}
+  .hero-stats{display:none;}
+  section{padding:4rem 1.25rem;}
+  .services-grid{grid-template-columns:1fr 1fr;}
+  .works-grid{grid-template-columns:1fr 1fr;}
+  .pricing-grid{grid-template-columns:1fr 1fr;}
+  .about-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:1rem;text-align:center;}
+}
+@media(max-width:480px){
+  .services-grid{grid-template-columns:1fr;}
+  .works-grid{grid-template-columns:1fr;}
+  .pricing-grid{grid-template-columns:1fr;}
+}
+
+/* SCROLL ANIMATION */
+.fade-in{opacity:0;transform:translateY(24px);transition:opacity 0.6s,transform 0.6s;}
+.fade-in.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#">驛瑪<span>騎士團</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">服務</a></li>
+    <li><a href="#works">作品</a></li>
+    <li><a href="#pricing">價格</a></li>
+    <li><a href="#about">關於</a></li>
+  </ul>
+  <a class="nav-cta" href="https://line.me/R/ti/p/@858ynhgf" target="_blank">立即諮詢</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-video">
+    <iframe src="https://www.youtube.com/embed/qwcnCmSt_vY?autoplay=1&mute=1&loop=1&playlist=qwcnCmSt_vY&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Hualien · Taiwan · Visual Creative Unit</div>
+    <h1 class="hero-title">花蓮在地<br><em>行動廣告</em><br>× 影像創作</h1>
+    <p class="hero-sub">把品牌訊息裝上移動載體，穿梭花蓮街頭。讓每一次曝光都是一段正在前進的畫面。</p>
+    <div class="hero-actions">
+      <a class="btn-primary" href="#pricing">查看方案</a>
+      <a class="btn-secondary" href="#works">觀看作品</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-val">HUALIEN</div>
+      <div class="stat-label">Base</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">VIDEO × ADS</div>
+      <div class="stat-label">Focus</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">YIMA KNIGHTS</div>
+      <div class="stat-label">Crew</div>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Services</div>
+    <h2 class="section-title fade-in">從街頭曝光到故事影像，<br>一次整合。</h2>
+    <div class="services-grid">
+      <div class="service-card fade-in">
+        <div class="service-num">01</div>
+        <div class="service-icon">📡</div>
+        <div class="service-name-en">Mobile Advertising</div>
+        <div class="service-name">行動廣告</div>
+        <div class="service-desc">機車搭載數位螢幕，穿梭花蓮市區與活動現場，讓品牌訊息自己抵達人群。日租、週租、月租方案彈性選擇。</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">02</div>
+        <div class="service-icon">🎬</div>
+        <div class="service-name-en">Video Production</div>
+        <div class="service-name">影片製作</div>
+        <div class="service-desc">企劃、拍攝、剪輯與後期包裝，打造適合品牌、活動與社群傳播的短影音內容。</div>
+      </div>
+      <div class="service-card fade-in">
+        <div class="service-num">03</div>
+        <div class="service-icon">✨</div>
+        <div class="service-name-en">AI Creation</div>
+        <div class="service-name">AI 創作</div>
+        <div class="service-desc">結合生成式視覺、原創音樂與 AI 影像後製，快速延展創意方向與內容版本。</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Selected Works</div>
+    <h2 class="section-title fade-in">六段可被看見、<br>記住、傳播的畫面。</h2>
+    <div class="works-grid">
+      <a class="work-card fade-in" href="https://www.youtube.com/@yima_hualien" target="_blank">
+        <img class="work-img" src="img5991_processed.jpg" alt="城市移動曝光計畫" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="work-img-placeholder" style="display:none;">📡</div>
+        <div class="work-overlay">
+          <div class="work-cat">Mobile Ads / Hualien</div>
+          <div class="work-title">城市移動曝光計畫</div>
+        </div>
+      </a>
+      <a class="work-card fade-in" href="https://www.youtube.com/@yima_hualien" target="_blank">
+        <img class="work-img" src="work_70.jpg" alt="地方品牌曝光企劃" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="work-img-placeholder" style="display:none;">📣</div>
+        <div class="work-overlay">
+          <div class="work-cat">Campaign / Brand</div>
+          <div class="work-title">地方品牌曝光企劃</div>
+        </div>
+      </a>
+      <a class="work-card fade-in" href="https://www.youtube.com/@yima_hualien" target="_blank">
+        <img class="work-img" src="work_58.jpg" alt="生成式影像實驗" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="work-img-placeholder" style="display:none;">✨</div>
+        <div class="work-overlay">
+          <div class="work-cat">AI / Visual</div>
+          <div class="work-title">生成式影像實驗</div>
+        </div>
+      </a>
+      <a class="work-card fade-in" href="https://www.youtube.com/@yima_hualien" target="_blank">
+        <img class="work-img" src="work_zhongfu.jpg" alt="美食紀錄" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="work-img-placeholder" style="display:none;">🍜</div>
+        <div class="work-overlay">
+          <div class="work-cat">Food / Local</div>
+          <div class="work-title">美食紀錄</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Pricing</div>
+    <h2 class="section-title fade-in">行動廣告方案</h2>
+    <div class="pricing-grid">
+      <div class="price-card fade-in">
+        <div class="price-tag">日付型</div>
+        <div class="price-name">單日方案</div>
+        <div class="price-val">100</div>
+        <div class="price-period">元 / 天</div>
+        <ul class="price-features">
+          <li>店家提供 3 張照片</li>
+          <li>適合臨時檔期</li>
+          <li>快閃活動</li>
+          <li>短期測試</li>
+        </ul>
+      </div>
+      <div class="price-card fade-in">
+        <div class="price-tag">雙週型</div>
+        <div class="price-name">雙週方案</div>
+        <div class="price-val">1,200</div>
+        <div class="price-period">元 / 14天</div>
+        <ul class="price-features">
+          <li>店家提供 3 張照片</li>
+          <li>適合小型店家</li>
+          <li>短期推廣活動</li>
+          <li>品牌試水溫</li>
+        </ul>
+      </div>
+      <div class="price-card featured fade-in">
+        <div class="price-tag">包月升級</div>
+        <div class="price-name">月租方案</div>
+        <div class="price-val">2,500</div>
+        <div class="price-period">元 / 30天</div>
+        <ul class="price-features">
+          <li>店家提供 3 張照片</li>
+          <li>適合小型店家</li>
+          <li>穩定長期曝光</li>
+          <li>最划算的選擇</li>
+        </ul>
+      </div>
+      <div class="price-card fade-in">
+        <div class="price-tag">曝光升級</div>
+        <div class="price-name">花蓮店家曝光包</div>
+        <div class="price-val">3,000</div>
+        <div class="price-period">元 / 組合</div>
+        <ul class="price-features">
+          <li>機車廣告板曝光 14 天</li>
+          <li>30 秒短影音 1 支</li>
+          <li>FB 社群曝光 3 篇</li>
+          <li>Google 商家優化 1 次</li>
+        </ul>
+      </div>
+    </div>
+    <p class="pricing-note fade-in">※ 廣告素材由客戶提供，或可加購設計服務。有任何疑問歡迎透過 LINE 聯絡洽詢。</p>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">About</div>
+    <div class="about-grid">
+      <div>
+        <h2 class="section-title fade-in">我們從花蓮出發，<br>把地方能量轉成<br>品牌可使用的影像語言。</h2>
+        <div class="about-text fade-in">
+          <p>在原住民語中，「ima」意為「誰」。驛瑪相信，任何人的想法都值得被看見與聽見。我們用行動廣告設計，讓創意在街頭流動，連結世界每一刻。透過驛瑪，無限的想法都能傳遞到任何人、任何地方。</p>
+          <p>驛瑪騎士團是花蓮在地的影像創作品牌，由外送創作者沈大千創立。我們深耕花蓮本地內容，結合 AI 技術與實地拍攝，提供行動廣告託播、影片製作與在地紀錄服務。</p>
+          <p>行動廣告是我們的核心業務：機車搭載數位螢幕，在花蓮市區與活動現場流動曝光，讓品牌訊息自己走進人群，而不是等人來看。</p>
+          <p>Yima Knights is a Hualien-based creative brand. We produce local documentary content, AI-enhanced videos, and operate a motorcycle-mounted digital advertising service for local businesses.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-inner">
+    <div class="eyebrow fade-in">Contact</div>
+    <h2 class="section-title fade-in">開始合作</h2>
+    <div class="contact-grid">
+      <div class="contact-links fade-in">
+        <a class="contact-link" href="https://line.me/R/ti/p/@858ynhgf" target="_blank">
+          <span class="contact-link-name">LINE 官方帳號</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a class="contact-link" href="https://www.youtube.com/@yima_hualien" target="_blank">
+          <span class="contact-link-name">YouTube 頻道</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+        <a class="contact-link" href="https://www.facebook.com/profile.php?id=61580698358568" target="_blank">
+          <span class="contact-link-name">Facebook 粉絲頁</span>
+          <span class="contact-link-arrow">→</span>
+        </a>
+      </div>
+      <div class="contact-info fade-in">
+        <p>有任何廣告託播、影片製作或合作提案，歡迎透過 LINE 聯絡我們，我們會在 24 小時內回覆。</p>
+        <p>📍 花蓮市 · Hualien City, Taiwan<br>服務範圍：花蓮市區及周邊</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a class="footer-logo" href="#">驛瑪<span>騎士團</span></a>
+  <div class="footer-copy">© 2026 驛瑪行動廣告 · Yima Knights · Hualien</div>
+</footer>
+
+<script>
+// Nav scroll
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50);
+});
+
+// Fade in
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
